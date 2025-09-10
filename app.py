@@ -7,7 +7,7 @@ import os
 import streamlit as st
 import pickle
 
-# Get the absolute path of the pickle file (relative to this script)
+# Get absolute path relative to this script
 current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, "heart_svm.pkl")
 
@@ -16,10 +16,11 @@ try:
     with open(model_path, "rb") as file:
         model = pickle.load(file)
 except FileNotFoundError:
-    st.error(f"❌ Model file not found at {model_path}")
+    st.error(f"❌ Model file not found at {model_path}. Make sure heart_svm.pkl is in the same folder as app.py")
     st.stop()
-
-
+except Exception as e:
+    st.error(f"❌ Error loading model: {e}")
+    st.stop()
 
 
 st.title("❤️ Heart Disease Prediction App")
@@ -54,5 +55,6 @@ if st.button("🔮 Predict"):
         st.error(" The patient is likely to have Heart Disease.")
     else:
         st.success(" The patient is unlikely to have Heart Disease.")
+
 
 

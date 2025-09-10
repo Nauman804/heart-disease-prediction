@@ -6,12 +6,18 @@ import pickle
 import os
 import pickle
 
-# Path relative to this file
+# Get the absolute path of the pickle file
 current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, "heart_svm.pkl")
 
-with open(model_path, "rb") as file:
-    model = pickle.load(file)
+# Load the model
+try:
+    with open(model_path, "rb") as file:
+        model = pickle.load(file)
+except FileNotFoundError:
+    st.error(f"❌ Model file not found at {model_path}")
+    st.stop()
+
 
 
 st.title("❤️ Heart Disease Prediction App")
@@ -46,3 +52,4 @@ if st.button("🔮 Predict"):
         st.error(" The patient is likely to have Heart Disease.")
     else:
         st.success(" The patient is unlikely to have Heart Disease.")
+

@@ -4,19 +4,21 @@ import pickle
 
 # Load the trained model
 import os
+import streamlit as st
 import pickle
 
-# Get the absolute path of the pickle file
+# Get the absolute path of the pickle file (relative to this script)
 current_dir = os.path.dirname(__file__)
 model_path = os.path.join(current_dir, "heart_svm.pkl")
 
-# Load the model
+# Load the model safely
 try:
     with open(model_path, "rb") as file:
         model = pickle.load(file)
 except FileNotFoundError:
     st.error(f"❌ Model file not found at {model_path}")
     st.stop()
+
 
 
 
@@ -52,4 +54,5 @@ if st.button("🔮 Predict"):
         st.error(" The patient is likely to have Heart Disease.")
     else:
         st.success(" The patient is unlikely to have Heart Disease.")
+
 
